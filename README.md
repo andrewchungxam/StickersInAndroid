@@ -1,7 +1,7 @@
 # Stickers In Android
 A Xamarin.Android sample with two images -- one larger background image and another smaller draggable image on top.
 
-
+![sticker_sample](https://user-images.githubusercontent.com/3628580/34062588-31412136-e1a2-11e7-8241-c2abf0f5db73.png)
 
 In this sample, you can choose an image from your camera's photos which will become the first background image.
 
