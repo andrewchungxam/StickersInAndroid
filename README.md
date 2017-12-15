@@ -1,4 +1,4 @@
-# StickersInAndroid
+# Stickers In Android
 A Xamarin.Android sample with two images -- one larger background image and another smaller draggable image on top.
 
 In this sample, you can choose an image from your camera's photos which will become the first background image.
