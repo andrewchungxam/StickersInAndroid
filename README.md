@@ -5,11 +5,14 @@ In this sample, you can choose an image from your camera's photos which will bec
 
 On top of that image, there is a smaller image (a vintage Xamarin logo).  You can drag this logo with one finger or you can resize that with a pinching gesture with two fingers.
 
-This sample is based on these two samples:
-• Touch in Android[https://developer.xamarin.com/guides/android/application_fundamentals/touch/android_touch_walkthrough/]
-• Image Selection in Android[https://developer.xamarin.com/recipes/android/data/files/selecting_a_gallery_image/]
+This sample is based on these two samples: </n>
+• [Touch in Android](https://developer.xamarin.com/guides/android/application_fundamentals/touch/android_touch_walkthrough/)
+• [Image Selection in Android](https://developer.xamarin.com/recipes/android/data/files/selecting_a_gallery_image/)
 
 
+</n>
+</n>
+</n>
 
 MIT License
 
