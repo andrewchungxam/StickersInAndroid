@@ -1,6 +1,8 @@
 # Stickers In Android
 A Xamarin.Android sample with two images -- one larger background image and another smaller draggable image on top.
 
+
+
 In this sample, you can choose an image from your camera's photos which will become the first background image.
 
 On top of that image, there is a smaller image (a vintage Xamarin logo).  You can drag this logo with one finger or you can resize it with a pinching gesture with two fingers.
