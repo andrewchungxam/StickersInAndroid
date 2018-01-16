@@ -5,13 +5,23 @@ namespace PickImageFromGallery
 	using Android.Graphics.Drawables;
 	using Android.Util;
 	using Android.Views;
+    using Android.Widget;
 
-	/// <summary>
-	///   This class will show how to respond to touch events using a custom subclass
-	///   of View.
-	/// </summary>
-	public class GestureRecognizerView : View
-	{
+    /// <summary>
+    ///   This class will show how to respond to touch events using a custom subclass
+    ///   of View.
+    /// </summary>
+    public class GestureRecognizerView : View
+    {
+
+        public float StickerXLocation { get; set; }
+        public float StickerYLocation { get; set; }
+
+        public int LastStickerXLength { get; set; }
+        public int LastStickerYHeight { get; set; }
+
+        public TextView durationLabel;
+ 
 		private static readonly int InvalidPointerId = -1;
 		private readonly Drawable _icon;
 		private readonly ScaleGestureDetector _scaleDetector;
@@ -23,12 +33,46 @@ namespace PickImageFromGallery
 		private float _scaleFactor = 1.0f;
 
 
+//        public Context localContext;
+
 		public GestureRecognizerView (Context context)
             : base(context, null, 0)
 		{
+//            localContext = context;
+
 			_icon = context.Resources.GetDrawable (Resource.Drawable.ic_launcher);
             _icon.SetBounds (0, 0, _icon.IntrinsicWidth, _icon.IntrinsicHeight);
+            LastStickerXLength = _icon.IntrinsicWidth;
+            LastStickerYHeight = _icon.IntrinsicHeight;
 			_scaleDetector = new ScaleGestureDetector (context, new MyScaleListener (this));
+
+
+
+            //            durationLabel = 
+
+
+            //_imageView = FindViewById<ImageView>(Resource.Id.imageView1);
+            ////button.Click += ButtonOnClick;
+
+            ////.Click += ButtonOnClick;
+            /// 
+            /// 
+             
+
+            //TextView mytextView = FindViewById<TextView>(Resource.Id.durationLabel2);
+            //if(mytextView!=null)
+                //{ 
+                //mytextView.Text = "View";
+                //}
+            //textView.Text = "Hello";
+
+            //WORKS BUT DOESNT DISPLAY
+            //TextView theTextView = new TextView(context);
+            //theTextView.Text = "Hello";
+
+
+
+
 
 		}
 
@@ -61,6 +105,26 @@ namespace PickImageFromGallery
 
 				_lastTouchX = x;
 				_lastTouchY = y;
+
+                StickerXLocation = _lastTouchX;
+                StickerYLocation = _lastTouchY;
+
+                    //Can you access the property in the activity FROM CONTEXT get the local Activity
+                    //
+
+
+                //durationSeekbar.ProgressChanged += delegate {
+                //    durationLabel.SetText(Resources.GetString(Resource.String.animation_duration, durationSeekbar.Progress), TextView.BufferType.Normal);
+                //};
+
+                //durationLabel = v.FindViewById<TextView>(Resource.Id.durationLabel);
+
+                //durationLabel.SetText(Resources.GetString(Resource.String.animation_duration, durationSeekbar.Progress), TextView.BufferType.Normal);
+
+
+                //LastTouchX = _lastTouchX;
+                //LastTouchY = _lastTouchY;
+
 				break;
 
 			case MotionEventActions.Up:

@@ -63,17 +63,38 @@ namespace PickImageFromGallery
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f040001
-			public const int MyButton = 2130968577;
-			
-			// aapt resource value: 0x7f040003
-			public const int imageView1 = 2130968579;
-			
 			// aapt resource value: 0x7f040002
-			public const int mainFrameLayout = 2130968578;
+			public const int ActivityTwoFrameLayout = 2130968578;
 			
 			// aapt resource value: 0x7f040000
-			public const int mainLinearLayout = 2130968576;
+			public const int ActivityTwoLinearLayout = 2130968576;
+			
+			// aapt resource value: 0x7f040001
+			public const int ActivityTwoTextView = 2130968577;
+			
+			// aapt resource value: 0x7f040003
+			public const int ActivityTwoimageView1 = 2130968579;
+			
+			// aapt resource value: 0x7f040007
+			public const int MyButton = 2130968583;
+			
+			// aapt resource value: 0x7f040008
+			public const int MySecondButton = 2130968584;
+			
+			// aapt resource value: 0x7f040006
+			public const int durationLabel = 2130968582;
+			
+			// aapt resource value: 0x7f040004
+			public const int durationLabel2 = 2130968580;
+			
+			// aapt resource value: 0x7f04000a
+			public const int imageView1 = 2130968586;
+			
+			// aapt resource value: 0x7f040009
+			public const int mainFrameLayout = 2130968585;
+			
+			// aapt resource value: 0x7f040005
+			public const int mainLinearLayout = 2130968581;
 			
 			static Id()
 			{
@@ -89,10 +110,13 @@ namespace PickImageFromGallery
 		{
 			
 			// aapt resource value: 0x7f030000
-			public const int GestureHolder = 2130903040;
+			public const int ActivityTwo = 2130903040;
 			
 			// aapt resource value: 0x7f030001
-			public const int Main = 2130903041;
+			public const int GestureHolder = 2130903041;
+			
+			// aapt resource value: 0x7f030002
+			public const int Main = 2130903042;
 			
 			static Layout()
 			{
