@@ -5,6 +5,7 @@ using Android.Content;
 using Android.Content.Res;
 using Android.Graphics;
 using Android.OS;
+using Android.Provider;
 using Android.Views;
 using Android.Widget;
 using Java.IO;
@@ -13,6 +14,7 @@ using Uri = Android.Net.Uri;
 
 namespace PickImageFromGallery
 {
+//    [Android.Runtime.Register("android/content/ContentResolver", DoNotGenerateAcw = true)]
     [Activity(Label = "PickImageFromGallery", MainLauncher = true, Icon = "@drawable/icon")]
     public class Activity1 : Activity
     {
@@ -28,7 +30,8 @@ namespace PickImageFromGallery
         public int StickerXLength { get; set; }
         public int StickerYHeight { get; set; }
 
-        //View _v;
+        public int BackgroundMinimumXLength { get; set; }
+        public int BackgroundMinimuYHeight { get; set; }
 
         GestureRecognizerView _v;
         Uri _uri;
@@ -38,10 +41,71 @@ namespace PickImageFromGallery
             if ((requestCode == PickImageId) && (resultCode == Result.Ok) && (data != null))
             {
                 _uri = data.Data;
+
+                //SET _IMAGEVIEW to IMAGE
                 _imageView.SetImageURI(_uri);
+                var minWidth = _imageView.Drawable.MinimumWidth;
+                var minHeight = _imageView.Drawable.MinimumHeight;
+
+                //minWidth = 1344
+                //minHeight = 1008
 
 
+                //GET BITMAP from _URI 
+                //https://stackoverflow.com/questions/3879992/how-to-get-bitmap-from-an-uri
+                //https://forums.xamarin.com/discussion/85255/getcontentresolver-equivalent
 
+
+                var imageContentResolver = this.ContentResolver;
+            using(Bitmap selectedImageBitmap = MediaStore.Images.Media.GetBitmap(imageContentResolver, _uri))
+            {
+                //GET CURRENT SIZES AND RESIZE THAT _URI to your chosen Resolution
+
+                //TAKE LOOK THIS:
+                //https://stackoverflow.com/questions/18077325/scale-image-to-fill-imageview-width-and-keep-aspect-ratio
+
+                //ORIGINAL BITMAP SIZES
+                var sIBXWidth = selectedImageBitmap.Width;
+                var sIBYHeight = selectedImageBitmap.Height;
+
+                //https://stackoverflow.com/questions/4837715/how-to-resize-a-bitmap-in-android
+                if (sIBXWidth > minWidth)
+                {
+
+                    int finalCaculatedHeight =  minWidth * sIBYHeight / sIBXWidth;
+                    var testString = "testString";
+
+                    Bitmap scaledDownBitmap = Bitmap.CreateScaledBitmap(selectedImageBitmap, minWidth, finalCaculatedHeight, false);
+                    //ByteArrayOutputStream bAOS = new ByteArrayOutputStream();
+                    //var bAOS = new Stream();
+
+                    //var asdf = new Stream();
+
+
+                    using(System.IO.MemoryStream memStream = new MemoryStream())
+                    {
+                        scaledDownBitmap.Compress(Bitmap.CompressFormat.Png, 0, memStream);
+                            string resizedPickedImageFileName = "rPIFName";
+                        using (var fos = OpenFileOutput(resizedPickedImageFileName, FileCreationMode.Private))  
+                        {
+                            fos.Write(memStream.ToArray(), 0, memStream.ToArray().Length);
+                            fos.Flush();
+                            fos.Close();
+                        }
+                    }
+                }
+            }
+
+                using (Bitmap bitmap = BitmapFactory.DecodeStream(this.OpenFileInput("rPIFName")))
+                {
+                    _imageView = FindViewById<ImageView>(Resource.Id.imageView1);
+                    _imageView.SetImageBitmap(bitmap);
+
+                    var testMinWidth = _imageView.Drawable.MinimumWidth;
+                    var testMinHeight = _imageView.Drawable.MinimumHeight;
+                }
+
+                //SAVE THAT TO FILE
             }
         }
 
@@ -98,7 +162,6 @@ namespace PickImageFromGallery
                 mytextView.Text = String.Format("Location: {0}, {1}", xlocation, ylocation);//"Location"; 
             });
 
-
             int width = 0;
             int height = 0;
 
@@ -110,20 +173,37 @@ namespace PickImageFromGallery
             //height = stickerBitmap.Height;
 
 
-            ContentResolver cr = this.ContentResolver;
 
-  
+
             //IF YOU RAN INTO AN ERROR HERE - YOU LIKELY DIDN'T CHOSE AN IMAGE
             //PUT VARIOUS CHECKS MAKE SURE AN IMAGE WAS SELECTED  
 
             //CREATING BITMAP FROM THE IMAGE IN THE PHOTO LIBRARY (THIS MAKES A LARGE FULL RESOLUTION IMAGE)
             //METHOD 1
-                var theInputStream = cr.OpenInputStream(_uri);
-                SKBitmap pickedImageBitmap = SKBitmap.Decode(theInputStream);
+            //ContentResolver cr = this.ContentResolver;
+            //var theInputStream = cr.OpenInputStream(_uri);
+            //SKBitmap pickedImageBitmap = SKBitmap.Decode(theInputStream);
+            //width = pickedImageBitmap.Width;
+            //height = pickedImageBitmap.Height;
 
-            width = pickedImageBitmap.Width;
-            height = pickedImageBitmap.Height;
 
+            //CREATE A BITMAP FROM AN IMAGE STORED IN APP PRIVATE STORAGE
+
+            //SKBitmap privateStorageImageBitmap = SKBitmap.Decode("rPIFName");
+            //This method not valid due to issue SKIA's file searching library (not a SkiaSharp issue but an underlying issue)
+
+            SKBitmap privateStorageImageBitmap;
+            //using (MemoryStream rPIStream = new MemoryStream())
+            //{
+
+            using (var fos = OpenFileInput("rPIFName")) 
+            {
+                privateStorageImageBitmap = SKBitmap.Decode(fos);
+            }
+            //}
+
+            width = privateStorageImageBitmap.Width;
+            height = privateStorageImageBitmap.Height;
  
 
             SKImage finalImage = null;
@@ -141,10 +221,17 @@ namespace PickImageFromGallery
                 int offsetTop = 0;
 
                 //FIRST PUT THE PICKED BACKGROUND IMAGE 
-                canvas.DrawBitmap(pickedImageBitmap, SKRect.Create(offset, offsetTop, pickedImageBitmap.Width, pickedImageBitmap.Height));
-     
+                //METHOD 1 - without resizing bitmap
+                //canvas.DrawBitmap(pickedImageBitmap, SKRect.Create(offset, offsetTop, pickedImageBitmap.Width, pickedImageBitmap.Height)); // 810, 810)); //pickedImageBitmap.Width, pickedImageBitmap.Height));
+
+                //METHOD 1 - with resized bitmap
+
+                canvas.DrawBitmap(privateStorageImageBitmap, SKRect.Create(offset, offsetTop, privateStorageImageBitmap.Width, privateStorageImageBitmap.Height)); // 810, 810)); //pickedImageBitmap.Width, pickedImageBitmap.Height));
+
+                //810 in low res photos
+
                 //SECOND PUT IN THE "STICKER"
-                canvas.DrawBitmap(stickerBitmap, SKRect.Create(XLocation, YLocation, StickerXLength, StickerYHeight));
+                canvas.DrawBitmap(stickerBitmap, SKRect.Create(XLocation, YLocation, stickerBitmap.Width, stickerBitmap.Height));  //5*StickerXLength, 5*StickerYHeight));
 
                 finalImage = tempSurface.Snapshot();
 

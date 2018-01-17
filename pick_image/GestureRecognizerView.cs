@@ -44,6 +44,8 @@ namespace PickImageFromGallery
             _icon.SetBounds (0, 0, _icon.IntrinsicWidth, _icon.IntrinsicHeight);
             LastStickerXLength = _icon.IntrinsicWidth;
             LastStickerYHeight = _icon.IntrinsicHeight;
+            //LastStickerXLength = _icon.MinimumWidth;
+            //LastStickerYHeight = _icon.MinimumHeight;
 			_scaleDetector = new ScaleGestureDetector (context, new MyScaleListener (this));
 
 
