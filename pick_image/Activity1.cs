@@ -47,54 +47,42 @@ namespace PickImageFromGallery
                 var minWidth = _imageView.Drawable.MinimumWidth;
                 var minHeight = _imageView.Drawable.MinimumHeight;
 
-                //minWidth = 1344
-                //minHeight = 1008
-
-
-                //GET BITMAP from _URI 
-                //https://stackoverflow.com/questions/3879992/how-to-get-bitmap-from-an-uri
-                //https://forums.xamarin.com/discussion/85255/getcontentresolver-equivalent
-
+                //CHECK SEE WHAT THE minWIDTH IS ON DEVICE
+                //tested minWidth on device = 1344
+                //tested minHeight on device = 1008
 
                 var imageContentResolver = this.ContentResolver;
-            using(Bitmap selectedImageBitmap = MediaStore.Images.Media.GetBitmap(imageContentResolver, _uri))
-            {
-                //GET CURRENT SIZES AND RESIZE THAT _URI to your chosen Resolution
-
-                //TAKE LOOK THIS:
-                //https://stackoverflow.com/questions/18077325/scale-image-to-fill-imageview-width-and-keep-aspect-ratio
-
-                //ORIGINAL BITMAP SIZES
-                var sIBXWidth = selectedImageBitmap.Width;
-                var sIBYHeight = selectedImageBitmap.Height;
-
-                //https://stackoverflow.com/questions/4837715/how-to-resize-a-bitmap-in-android
-                if (sIBXWidth > minWidth)
+                using(Bitmap selectedImageBitmap = MediaStore.Images.Media.GetBitmap(imageContentResolver, _uri))
                 {
+                    //GET CURRENT SIZES AND RESIZE THAT _URI TO YOUR CHOSEN RESOLUTION
 
-                    int finalCaculatedHeight =  minWidth * sIBYHeight / sIBXWidth;
-                    var testString = "testString";
+                    //ORIGINAL BITMAP SIZES
+                    var sIBXWidth = selectedImageBitmap.Width;
+                    var sIBYHeight = selectedImageBitmap.Height;
 
-                    Bitmap scaledDownBitmap = Bitmap.CreateScaledBitmap(selectedImageBitmap, minWidth, finalCaculatedHeight, false);
-                    //ByteArrayOutputStream bAOS = new ByteArrayOutputStream();
-                    //var bAOS = new Stream();
-
-                    //var asdf = new Stream();
-
-
-                    using(System.IO.MemoryStream memStream = new MemoryStream())
+                    if (sIBXWidth > minWidth)
                     {
-                        scaledDownBitmap.Compress(Bitmap.CompressFormat.Png, 0, memStream);
-                            string resizedPickedImageFileName = "rPIFName";
-                        using (var fos = OpenFileOutput(resizedPickedImageFileName, FileCreationMode.Private))  
+
+                        int finalCaculatedHeight =  minWidth * sIBYHeight / sIBXWidth;
+                        var testString = "testString";
+
+                        using(Bitmap scaledDownBitmap = Bitmap.CreateScaledBitmap(selectedImageBitmap, minWidth, finalCaculatedHeight, false))
                         {
-                            fos.Write(memStream.ToArray(), 0, memStream.ToArray().Length);
-                            fos.Flush();
-                            fos.Close();
+                            //SAVE THAT TO FILE
+                            using(System.IO.MemoryStream memStream = new MemoryStream())
+                            {
+                                scaledDownBitmap.Compress(Bitmap.CompressFormat.Png, 0, memStream);
+                                string resizedPickedImageFileName = "rPIFName";
+                                using (var fos = OpenFileOutput(resizedPickedImageFileName, FileCreationMode.Private))  
+                                {
+                                    fos.Write(memStream.ToArray(), 0, memStream.ToArray().Length);
+                                    fos.Flush();
+                                    fos.Close();
+                                }
+                            }
                         }
                     }
                 }
-            }
 
                 using (Bitmap bitmap = BitmapFactory.DecodeStream(this.OpenFileInput("rPIFName")))
                 {
@@ -104,8 +92,6 @@ namespace PickImageFromGallery
                     var testMinWidth = _imageView.Drawable.MinimumWidth;
                     var testMinHeight = _imageView.Drawable.MinimumHeight;
                 }
-
-                //SAVE THAT TO FILE
             }
         }
 
@@ -172,9 +158,6 @@ namespace PickImageFromGallery
             //width = stickerBitmap.Width;
             //height = stickerBitmap.Height;
 
-
-
-
             //IF YOU RAN INTO AN ERROR HERE - YOU LIKELY DIDN'T CHOSE AN IMAGE
             //PUT VARIOUS CHECKS MAKE SURE AN IMAGE WAS SELECTED  
 
@@ -187,7 +170,7 @@ namespace PickImageFromGallery
             //height = pickedImageBitmap.Height;
 
 
-            //CREATE A BITMAP FROM AN IMAGE STORED IN APP PRIVATE STORAGE
+            //CREATE A BITMAP FROM AN IMAGE STORED IN APP PRIVATE STORAGE (THIS NORMALIZES IMAGE RESOLUTION)
 
             //SKBitmap privateStorageImageBitmap = SKBitmap.Decode("rPIFName");
             //This method not valid due to issue SKIA's file searching library (not a SkiaSharp issue but an underlying issue)
@@ -256,8 +239,6 @@ namespace PickImageFromGallery
                 activity2.PutExtra("MyData", "Data from Activity1");
                 StartActivity(activity2);
             }
-
-
         }
 
         void ButtonOnClick(object sender, EventArgs eventArgs)
