@@ -72,6 +72,8 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_launcher.png" />
     <AndroidResource Include="Resources\Layout\GestureHolder.axml" />
     <AndroidResource Include="Resources\Layout\ActivityTwo.axml" />
+    <AndroidResource Include="Resources\Drawable\lightborder.axml" />
+    <AndroidResource Include="Resources\Drawable\blueborder.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\Drawable\Icon.png" />

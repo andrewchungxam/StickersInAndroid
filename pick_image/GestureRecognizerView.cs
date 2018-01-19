@@ -17,8 +17,8 @@ namespace PickImageFromGallery
         public float StickerXLocation { get; set; }
         public float StickerYLocation { get; set; }
 
-        public int LastStickerXLength { get; set; }
-        public int LastStickerYHeight { get; set; }
+        public int StickerXLength { get; set; }
+        public int StickerYHeight { get; set; }
 
         public TextView durationLabel;
  
@@ -42,13 +42,13 @@ namespace PickImageFromGallery
 
 			_icon = context.Resources.GetDrawable (Resource.Drawable.ic_launcher);
             _icon.SetBounds (0, 0, _icon.IntrinsicWidth, _icon.IntrinsicHeight);
-            LastStickerXLength = _icon.IntrinsicWidth;
-            LastStickerYHeight = _icon.IntrinsicHeight;
+            StickerXLength = _icon.IntrinsicWidth;
+            StickerYHeight = _icon.IntrinsicHeight;
             //LastStickerXLength = _icon.MinimumWidth;
             //LastStickerYHeight = _icon.MinimumHeight;
 			_scaleDetector = new ScaleGestureDetector (context, new MyScaleListener (this));
 
-
+            Background = context.Resources.GetDrawable(Resource.Drawable.blueborder);
 
             //            durationLabel = 
 
@@ -111,6 +111,7 @@ namespace PickImageFromGallery
                 StickerXLocation = _lastTouchX;
                 StickerYLocation = _lastTouchY;
 
+                    int hi = 5;
                     //Can you access the property in the activity FROM CONTEXT get the local Activity
                     //
 
@@ -146,9 +147,15 @@ namespace PickImageFromGallery
 					// This was our active pointer going up. Choose a new
 					// action pointer and adjust accordingly
 					int newPointerIndex = pointerIndex == 0 ? 1 : 0;
-					_lastTouchX = ev.GetX (newPointerIndex);
+	
+
+
+                    _lastTouchX = ev.GetX (newPointerIndex);
 					_lastTouchY = ev.GetY (newPointerIndex);
 					_activePointerId = ev.GetPointerId (newPointerIndex);
+                    
+       
+
 				}
 				break;
 			}

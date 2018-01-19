@@ -29,6 +29,7 @@
         android:id="@+id/mainFrameLayout">
         <ImageView
             android:src="@android:drawable/ic_menu_gallery"
+            android:scaleType="fitStart"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:id="@+id/imageView1" />

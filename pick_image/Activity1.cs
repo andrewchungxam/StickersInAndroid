@@ -24,8 +24,8 @@ namespace PickImageFromGallery
 
         TextView mytextView;
 
-        public float XLocation { get; set; } = 1.23F;
-        public float YLocation { get; set; } = 1.23F;
+        public float XLocation { get; set; } //= 1.23F;
+        public float YLocation { get; set; } //= 1.23F;
 
         public int StickerXLength { get; set; }
         public int StickerYHeight { get; set; }
@@ -35,6 +35,8 @@ namespace PickImageFromGallery
 
         GestureRecognizerView _v;
         Uri _uri;
+
+        FrameLayout mainFrameLayout; 
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
@@ -91,6 +93,23 @@ namespace PickImageFromGallery
 
                     var testMinWidth = _imageView.Drawable.MinimumWidth;
                     var testMinHeight = _imageView.Drawable.MinimumHeight;
+
+                    int[] screenPOSXY = new int[2];
+                    _v.GetLocationOnScreen(screenPOSXY);
+                    int xOfScreenForV = screenPOSXY[0];
+                    int yOfScreenForV = screenPOSXY[1];
+                    //yOfScreenForV = 561
+
+                    var x2OfImageView = _imageView.GetX();
+                    var y2OfImageView = _imageView.GetY();
+
+                    int[] screenPOSXYOfImageView = new int[2];
+                    _imageView.GetLocationOnScreen(screenPOSXYOfImageView);
+                    int xOfScreenOfImageView = screenPOSXY[0];
+                    int yOfScreenOfImageView = screenPOSXY[1];
+                    //yOFScreenOfImageView = 561
+
+
                 }
             }
         }
@@ -99,14 +118,21 @@ namespace PickImageFromGallery
         {
             base.OnCreate(bundle);
 
+            SetContentView(Resource.Layout.Main);
+            mainFrameLayout = (FrameLayout)FindViewById(Resource.Id.mainFrameLayout);
+
             _v = new GestureRecognizerView(this);
 
-            SetContentView(Resource.Layout.Main);
-
             ////METHOD 1
-            FrameLayout mainFrameLayout = (FrameLayout)FindViewById(Resource.Id.mainFrameLayout);
             mainFrameLayout.AddView(_v);
 
+            var xOfV = _v.GetX();
+            var yOfV = _v.GetY();
+
+            int[] screenPOSXY = new int[2];
+            _v.GetLocationOnScreen(screenPOSXY);
+            int xOfScreenForV = screenPOSXY[0];
+            int yOfScreenForV = screenPOSXY[1];
 
             ////OPTIONAL METHOD 2 - (optionally add a linear layout to wrap the image holder in Main.axml) - 
             // //and in code below, the linear layout surrounds the gesture recognizer
@@ -118,6 +144,16 @@ namespace PickImageFromGallery
             //mainFrameLayout.AddView(linearLayoutGestureHolder);
 
             _imageView = FindViewById<ImageView>(Resource.Id.imageView1);
+
+            var xOfImageView = _imageView.GetX();
+            var yOfImageView = _imageView.GetY();
+
+            int[] screenPOSXYImageView = new int[2];
+            _v.GetLocationOnScreen(screenPOSXYImageView);
+            int xOfScreenForImageView = screenPOSXY[0];
+            int yOfScreenForImageView = screenPOSXY[1];
+
+
             Button button = FindViewById<Button>(Resource.Id.MyButton);
             button.Click += ButtonOnClick;
 
@@ -137,15 +173,15 @@ namespace PickImageFromGallery
             XLocation = _v.StickerXLocation;
             YLocation = _v.StickerYLocation;
 
-            StickerXLength = _v.LastStickerXLength;
-            StickerYHeight = _v.LastStickerYHeight;
+            StickerXLength = _v.StickerXLength;
+            StickerYHeight = _v.StickerYHeight;
 
             RunOnUiThread
             (() =>
             {
-                var xlocation = string.Format("{0:N3}", XLocation);
-                var ylocation = string.Format("{0:N3}", YLocation);
-                mytextView.Text = String.Format("Location: {0}, {1}", xlocation, ylocation);//"Location"; 
+                var xlocationText = string.Format("{0:N3}", XLocation);
+                var ylocationText = string.Format("{0:N3}", YLocation);
+                mytextView.Text = String.Format("Location: {0}, {1}", xlocationText, ylocationText);//"Location"; 
             });
 
             int width = 0;
