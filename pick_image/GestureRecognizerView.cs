@@ -102,31 +102,16 @@ namespace PickImageFromGallery
 					float deltaY = y - _lastTouchY;
 					_posX += deltaX;
 					_posY += deltaY;
+                    
+                    //ADDITION
+                    StickerXLocation = _posX;
+                    StickerYLocation = _posY;
+
 					Invalidate ();
 				}
 
 				_lastTouchX = x;
 				_lastTouchY = y;
-
-                StickerXLocation = _lastTouchX;
-                StickerYLocation = _lastTouchY;
-
-                    int hi = 5;
-                    //Can you access the property in the activity FROM CONTEXT get the local Activity
-                    //
-
-
-                //durationSeekbar.ProgressChanged += delegate {
-                //    durationLabel.SetText(Resources.GetString(Resource.String.animation_duration, durationSeekbar.Progress), TextView.BufferType.Normal);
-                //};
-
-                //durationLabel = v.FindViewById<TextView>(Resource.Id.durationLabel);
-
-                //durationLabel.SetText(Resources.GetString(Resource.String.animation_duration, durationSeekbar.Progress), TextView.BufferType.Normal);
-
-
-                //LastTouchX = _lastTouchX;
-                //LastTouchY = _lastTouchY;
 
 				break;
 
@@ -139,6 +124,7 @@ namespace PickImageFromGallery
 				break;
 
 			case MotionEventActions.PointerUp:
+
                     // We only want to update the last touch position if the the appropriate pointer
                     // has been lifted off the screen.
 				pointerIndex = (int)(ev.Action & MotionEventActions.PointerIndexMask) >> (int)MotionEventActions.PointerIndexShift;
@@ -148,14 +134,10 @@ namespace PickImageFromGallery
 					// action pointer and adjust accordingly
 					int newPointerIndex = pointerIndex == 0 ? 1 : 0;
 	
-
-
                     _lastTouchX = ev.GetX (newPointerIndex);
 					_lastTouchY = ev.GetY (newPointerIndex);
 					_activePointerId = ev.GetPointerId (newPointerIndex);
-                    
-       
-
+             
 				}
 				break;
 			}
