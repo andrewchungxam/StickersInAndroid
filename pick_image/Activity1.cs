@@ -176,15 +176,15 @@ namespace PickImageFromGallery
             DisplayMetrics dm = this.Resources.DisplayMetrics;
 
             //GET DATA FROM THE GestureRecognizerView
-            XLocation = _v.StickerXLocation * 1.25F; ///dm.Density;
-            YLocation = _v.StickerYLocation * 1.25F; ///dm.Density;
+            XLocation = _v.StickerXLocation * 1.245F; ///dm.Density;
+            YLocation = _v.StickerYLocation * 1.245F; ///dm.Density;
 
             //           StickerXLength = _v.StickerXLength;
             //           StickerYHeight = _v.StickerYHeight;
 
 
-            StickerXLengthFloat = _v.StickerXLength * 1.25F;// *1.20F;
-            StickerYLengthFloat = _v.StickerYHeight * 1.25F;// *1.20F; 
+            StickerXLengthFloat = _v.StickerXLength * 1.245F;// *1.20F;
+            StickerYLengthFloat = _v.StickerYHeight * 1.245F;// *1.20F; 
 
             RunOnUiThread
             (() =>
