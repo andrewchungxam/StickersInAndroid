@@ -6,6 +6,7 @@ using Android.Content.Res;
 using Android.Graphics;
 using Android.OS;
 using Android.Provider;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Java.IO;
@@ -29,6 +30,9 @@ namespace PickImageFromGallery
 
         public int StickerXLength { get; set; }
         public int StickerYHeight { get; set; }
+
+        public float StickerXLengthFloat { get; set; }
+        public float StickerYLengthFloat { get; set; }
 
         public int BackgroundMinimumXLength { get; set; }
         public int BackgroundMinimuYHeight { get; set; }
@@ -169,12 +173,18 @@ namespace PickImageFromGallery
         {
             //GET X/Y LOCATION FROM GestureVIEW
 
-            //GET DATA FROM THE GestureRecognizerView
-            XLocation = _v.StickerXLocation;
-            YLocation = _v.StickerYLocation;
+            DisplayMetrics dm = this.Resources.DisplayMetrics;
 
-            StickerXLength = _v.StickerXLength;
-            StickerYHeight = _v.StickerYHeight;
+            //GET DATA FROM THE GestureRecognizerView
+            XLocation = _v.StickerXLocation * 1.25F; ///dm.Density;
+            YLocation = _v.StickerYLocation * 1.25F; ///dm.Density;
+
+            //           StickerXLength = _v.StickerXLength;
+            //           StickerYHeight = _v.StickerYHeight;
+
+
+            StickerXLengthFloat = _v.StickerXLength * 1.25F;// *1.20F;
+            StickerYLengthFloat = _v.StickerYHeight * 1.25F;// *1.20F; 
 
             RunOnUiThread
             (() =>
@@ -250,7 +260,9 @@ namespace PickImageFromGallery
                 //810 in low res photos
 
                 //SECOND PUT IN THE "STICKER"
-                canvas.DrawBitmap(stickerBitmap, SKRect.Create(XLocation, YLocation, stickerBitmap.Width, stickerBitmap.Height));  //5*StickerXLength, 5*StickerYHeight));
+                //canvas.DrawBitmap(stickerBitmap, SKRect.Create(XLocation, YLocation, stickerBitmap.Width, stickerBitmap.Height));  //5*StickerXLength, 5*StickerYHeight));
+                canvas.DrawBitmap(stickerBitmap, SKRect.Create(XLocation, YLocation, StickerXLengthFloat, StickerYLengthFloat));  //5*StickerXLength, 5*StickerYHeight));
+
 
                 finalImage = tempSurface.Snapshot();
 
