@@ -32,13 +32,9 @@ namespace PickImageFromGallery
 		private float _posY;
 		private float _scaleFactor = 1.0f;
 
-
-//        public Context localContext;
-
 		public GestureRecognizerView (Context context)
             : base(context, null, 0)
 		{
-//            localContext = context;
 
 			_icon = context.Resources.GetDrawable (Resource.Drawable.ic_launcher);
             _icon.SetBounds (0, 0, _icon.IntrinsicWidth, _icon.IntrinsicHeight);
@@ -49,31 +45,6 @@ namespace PickImageFromGallery
 			_scaleDetector = new ScaleGestureDetector (context, new MyScaleListener (this));
 
             Background = context.Resources.GetDrawable(Resource.Drawable.blueborder);
-
-            //            durationLabel = 
-
-
-            //_imageView = FindViewById<ImageView>(Resource.Id.imageView1);
-            ////button.Click += ButtonOnClick;
-
-            ////.Click += ButtonOnClick;
-            /// 
-            /// 
-             
-
-            //TextView mytextView = FindViewById<TextView>(Resource.Id.durationLabel2);
-            //if(mytextView!=null)
-                //{ 
-                //mytextView.Text = "View";
-                //}
-            //textView.Text = "Hello";
-
-            //WORKS BUT DOESNT DISPLAY
-            //TextView theTextView = new TextView(context);
-            //theTextView.Text = "Hello";
-
-
-
 
 
 		}
