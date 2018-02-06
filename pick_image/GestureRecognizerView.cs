@@ -44,7 +44,7 @@ namespace PickImageFromGallery
             //LastStickerYHeight = _icon.MinimumHeight;
 			_scaleDetector = new ScaleGestureDetector (context, new MyScaleListener (this));
 
-            Background = context.Resources.GetDrawable(Resource.Drawable.blueborder);
+            //Background = context.Resources.GetDrawable(Resource.Drawable.blueborder);
 
 
 		}

@@ -70,7 +70,6 @@ namespace PickImageFromGallery
                     {
 
                         int finalCaculatedHeight =  minWidth * sIBYHeight / sIBXWidth;
-                        var testString = "testString";
 
                         using(Bitmap scaledDownBitmap = Bitmap.CreateScaledBitmap(selectedImageBitmap, minWidth, finalCaculatedHeight, false))
                         {
@@ -98,21 +97,19 @@ namespace PickImageFromGallery
                     var testMinWidth = _imageView.Drawable.MinimumWidth;
                     var testMinHeight = _imageView.Drawable.MinimumHeight;
 
-                    int[] screenPOSXY = new int[2];
-                    _v.GetLocationOnScreen(screenPOSXY);
-                    int xOfScreenForV = screenPOSXY[0];
-                    int yOfScreenForV = screenPOSXY[1];
-                    //yOfScreenForV = 561
+                    //LOCATION TEST 1
+                    //int[] screenPOSXY = new int[2];
+                    //_v.GetLocationOnScreen(screenPOSXY);
+                    //int xOfScreenForV = screenPOSXY[0];
+                    //int yOfScreenForV = screenPOSXY[1];  //yOfScreenForV = 561
 
-                    var x2OfImageView = _imageView.GetX();
-                    var y2OfImageView = _imageView.GetY();
+                    //var x2OfImageView = _imageView.GetX();
+                    //var y2OfImageView = _imageView.GetY();
 
-                    int[] screenPOSXYOfImageView = new int[2];
-                    _imageView.GetLocationOnScreen(screenPOSXYOfImageView);
-                    int xOfScreenOfImageView = screenPOSXY[0];
-                    int yOfScreenOfImageView = screenPOSXY[1];
-                    //yOFScreenOfImageView = 561
-
+                    //int[] screenPOSXYOfImageView = new int[2];
+                    //_imageView.GetLocationOnScreen(screenPOSXYOfImageView);
+                    //int xOfScreenOfImageView = screenPOSXY[0];
+                    //int yOfScreenOfImageView = screenPOSXY[1];   //yOFScreenOfImageView = 561
 
                 }
             }
@@ -130,13 +127,14 @@ namespace PickImageFromGallery
             ////METHOD 1
             mainFrameLayout.AddView(_v);
 
-            var xOfV = _v.GetX();
-            var yOfV = _v.GetY();
-
-            int[] screenPOSXY = new int[2];
-            _v.GetLocationOnScreen(screenPOSXY);
-            int xOfScreenForV = screenPOSXY[0];
-            int yOfScreenForV = screenPOSXY[1];
+            //LOCATION TEST 1
+            //var xOfV = _v.GetX();
+            //var yOfV = _v.GetY();
+            //
+            //int[] screenPOSXY = new int[2];
+            //_v.GetLocationOnScreen(screenPOSXY);
+            //int xOfScreenForV = screenPOSXY[0];
+            //int yOfScreenForV = screenPOSXY[1];
 
             ////OPTIONAL METHOD 2 - (optionally add a linear layout to wrap the image holder in Main.axml) - 
             // //and in code below, the linear layout surrounds the gesture recognizer
@@ -149,13 +147,14 @@ namespace PickImageFromGallery
 
             _imageView = FindViewById<ImageView>(Resource.Id.imageView1);
 
-            var xOfImageView = _imageView.GetX();
-            var yOfImageView = _imageView.GetY();
-
-            int[] screenPOSXYImageView = new int[2];
-            _v.GetLocationOnScreen(screenPOSXYImageView);
-            int xOfScreenForImageView = screenPOSXY[0];
-            int yOfScreenForImageView = screenPOSXY[1];
+            //LOCATION 3
+            //var xOfImageView = _imageView.GetX();
+            //var yOfImageView = _imageView.GetY();
+            //
+            //int[] screenPOSXYImageView = new int[2];
+            //_v.GetLocationOnScreen(screenPOSXYImageView);
+            //int xOfScreenForImageView = screenPOSXY[0];
+            //int yOfScreenForImageView = screenPOSXY[1];
 
 
             Button button = FindViewById<Button>(Resource.Id.MyButton);
@@ -176,15 +175,14 @@ namespace PickImageFromGallery
             DisplayMetrics dm = this.Resources.DisplayMetrics;
 
             //GET DATA FROM THE GestureRecognizerView
-            XLocation = _v.StickerXLocation * 1.245F; ///dm.Density;
-            YLocation = _v.StickerYLocation * 1.245F; ///dm.Density;
+            XLocation = _v.StickerXLocation * 1.245F; /// * dm.Density;
+            YLocation = _v.StickerYLocation * 1.245F; /// * dm.Density;
 
-            //           StickerXLength = _v.StickerXLength;
-            //           StickerYHeight = _v.StickerYHeight;
+            //StickerXLength = _v.StickerXLength;
+            //StickerYHeight = _v.StickerYHeight;
 
-
-            StickerXLengthFloat = _v.StickerXLength * 1.245F;// *1.20F;
-            StickerYLengthFloat = _v.StickerYHeight * 1.245F;// *1.20F; 
+            StickerXLengthFloat = _v.StickerXLength* 1.245F;// *1.20F;
+            StickerYLengthFloat = _v.StickerYHeight* 1.245F;// *1.20F; 
 
             RunOnUiThread
             (() =>
@@ -215,21 +213,19 @@ namespace PickImageFromGallery
             //width = pickedImageBitmap.Width;
             //height = pickedImageBitmap.Height;
 
-
+            //METHOD 2
             //CREATE A BITMAP FROM AN IMAGE STORED IN APP PRIVATE STORAGE (THIS NORMALIZES IMAGE RESOLUTION)
 
             //SKBitmap privateStorageImageBitmap = SKBitmap.Decode("rPIFName");
             //This method not valid due to issue SKIA's file searching library (not a SkiaSharp issue but an underlying issue)
 
             SKBitmap privateStorageImageBitmap;
-            //using (MemoryStream rPIStream = new MemoryStream())
-            //{
-
+     
             using (var fos = OpenFileInput("rPIFName")) 
             {
                 privateStorageImageBitmap = SKBitmap.Decode(fos);
             }
-            //}
+   
 
             width = privateStorageImageBitmap.Width;
             height = privateStorageImageBitmap.Height;
@@ -253,8 +249,7 @@ namespace PickImageFromGallery
                 //METHOD 1 - without resizing bitmap
                 //canvas.DrawBitmap(pickedImageBitmap, SKRect.Create(offset, offsetTop, pickedImageBitmap.Width, pickedImageBitmap.Height)); // 810, 810)); //pickedImageBitmap.Width, pickedImageBitmap.Height));
 
-                //METHOD 1 - with resized bitmap
-
+                //METHOD 2 - with resized bitmap
                 canvas.DrawBitmap(privateStorageImageBitmap, SKRect.Create(offset, offsetTop, privateStorageImageBitmap.Width, privateStorageImageBitmap.Height)); // 810, 810)); //pickedImageBitmap.Width, pickedImageBitmap.Height));
 
                 //810 in low res photos
@@ -263,10 +258,9 @@ namespace PickImageFromGallery
                 //canvas.DrawBitmap(stickerBitmap, SKRect.Create(XLocation, YLocation, stickerBitmap.Width, stickerBitmap.Height));  //5*StickerXLength, 5*StickerYHeight));
                 canvas.DrawBitmap(stickerBitmap, SKRect.Create(XLocation, YLocation, StickerXLengthFloat, StickerYLengthFloat));  //5*StickerXLength, 5*StickerYHeight));
 
-
                 finalImage = tempSurface.Snapshot();
 
-                SKData data = finalImage.Encode(SKEncodedImageFormat.Png, 80); // don't dispose
+                SKData data = finalImage.Encode(SKEncodedImageFormat.Png, 100); // don't dispose
                 Stream stream = data?.AsStream(true);  // AsStream(true);
 
                 String fileName = "myImage";

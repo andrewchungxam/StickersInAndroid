@@ -29,8 +29,6 @@ namespace PickImageFromGallery
             // Create your application here
             string passedText = Intent.GetStringExtra("MyData") ?? "Data not available";
 
-            string sampleText = "hello";
-
             activityTwoTextView = FindViewById<TextView>(Resource.Id.ActivityTwoTextView);
             activityTwoTextView.Text = passedText;
 
